@@ -1,0 +1,89 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.0 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.3.0">
+  <diagram name="第 1 页" id="b-1gC1EJUdVbcLiNDe6p">
+    <mxGraphModel dx="2244" dy="2018" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="21KNUECzs471JhOmHpBL-2" parent="1" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;" value="&lt;div&gt;users&lt;/div&gt;&lt;div&gt;────&lt;/div&gt;&lt;div&gt;id (PK)&lt;/div&gt;&lt;div&gt;username&lt;/div&gt;&lt;div&gt;email&lt;/div&gt;&lt;div&gt;hashed_password&lt;/div&gt;&lt;div&gt;full_name&lt;/div&gt;&lt;div&gt;role&lt;/div&gt;&lt;div&gt;grade&lt;/div&gt;&lt;div&gt;school&lt;/div&gt;&lt;div&gt;is_active&lt;/div&gt;&lt;div&gt;is_verified&lt;/div&gt;&lt;div&gt;created_at&lt;/div&gt;&lt;div&gt;updated_at&lt;/div&gt;&lt;div&gt;last_login_at&lt;/div&gt;&lt;div&gt;metadata (JSONB)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="250" width="120" x="-760" y="-1160" as="geometry" />
+        </mxCell>
+        <mxCell id="21KNUECzs471JhOmHpBL-3" parent="1" style="text;whiteSpace=wrap;" value="users表（用户表）&#xa;──────────────&#xa;PK：主键 Primary Key&#xa;JSONB：PostgreSQL的JSON二进制格式&#xa;role：用户角色(student/teacher/admin/parent)" vertex="1">
+          <mxGeometry height="110" width="166" x="-636" y="-1160" as="geometry" />
+        </mxCell>
+        <mxCell id="21KNUECzs471JhOmHpBL-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="knowledge_points&#xa;───────────────&#xa;id (PK)&#xa;name&#xa;code&#xa;parent_id (FK)&#xa;level&#xa;description&#xa;sort_order&#xa;weight&#xa;problem_count&#xa;created_at&#xa;updated_at" vertex="1">
+          <mxGeometry height="220" width="120" x="-760" y="-890" as="geometry" />
+        </mxCell>
+        <mxCell id="21KNUECzs471JhOmHpBL-5" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=1.017;entryY=0.214;entryDx=0;entryDy=0;entryPerimeter=0;" target="21KNUECzs471JhOmHpBL-4" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="-500" y="-843" as="sourcePoint" />
+            <mxPoint x="-500" y="-810" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="21KNUECzs471JhOmHpBL-6" connectable="0" parent="21KNUECzs471JhOmHpBL-5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;span style=&quot;color: rgb(15, 17, 21); font-family: Menlo, Monaco, Consolas, &amp;quot;Cascadia Mono&amp;quot;, &amp;quot;Ubuntu Mono&amp;quot;, &amp;quot;DejaVu Sans Mono&amp;quot;, &amp;quot;Liberation Mono&amp;quot;, &amp;quot;JetBrains Mono&amp;quot;, &amp;quot;Fira Code&amp;quot;, Cousine, &amp;quot;Roboto Mono&amp;quot;, &amp;quot;Courier New&amp;quot;, Courier, sans-serif, system-ui; font-size: 14px; text-align: start; text-wrap-mode: wrap; background-color: rgb(235, 238, 242);&quot;&gt;parent_id&lt;/span&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.0438" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <UserObject label="知识点表（knowledge_points）&#xa;────────────────────&#xa;code：知识点编码，如&quot;geometry.plane.area&quot;&#xa;parent_id：父知识点ID，形成树形结构&#xa;level：层级深度(1-一级知识点,2-二级...)&#xa;weight：在考试中的权重" link="知识点表（knowledge_points）&#xa;────────────────────&#xa;code：知识点编码，如&quot;geometry.plane.area&quot;&#xa;parent_id：父知识点ID，形成树形结构&#xa;level：层级深度(1-一级知识点,2-二级...)&#xa;weight：在考试中的权重" id="21KNUECzs471JhOmHpBL-8">
+          <mxCell parent="1" style="text;whiteSpace=wrap;align=left;" vertex="1">
+            <mxGeometry height="150" width="230" x="-630" y="-820" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="21KNUECzs471JhOmHpBL-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;div&gt;problems&lt;/div&gt;&lt;div&gt;────────&lt;/div&gt;&lt;div&gt;id (PK)&lt;/div&gt;&lt;div&gt;title&lt;/div&gt;&lt;div&gt;content&lt;/div&gt;&lt;div&gt;content_type&lt;/div&gt;&lt;div&gt;options (JSONB)&lt;/div&gt;&lt;div&gt;correct_answer&lt;/div&gt;&lt;div&gt;solution&lt;/div&gt;&lt;div&gt;solution_type&lt;/div&gt;&lt;div&gt;difficulty&lt;/div&gt;&lt;div&gt;source_type&lt;/div&gt;&lt;div&gt;source_year&lt;/div&gt;&lt;div&gt;source_detail&lt;/div&gt;&lt;div&gt;estimated_time&lt;/div&gt;&lt;div&gt;success_rate&lt;/div&gt;&lt;div&gt;is_published&lt;/div&gt;&lt;div&gt;is_deleted&lt;/div&gt;&lt;div&gt;reviewed_by (FK)&lt;/div&gt;&lt;div&gt;reviewed_at&lt;/div&gt;&lt;div&gt;review_status&lt;/div&gt;&lt;div&gt;total_attempts&lt;/div&gt;&lt;div&gt;correct_attempts&lt;/div&gt;&lt;div&gt;created_by (FK)&lt;/div&gt;&lt;div&gt;created_at&lt;/div&gt;&lt;div&gt;updated_at&lt;/div&gt;&lt;div&gt;search_vector&lt;/div&gt;" vertex="1">
+          <mxGeometry height="404" width="120" x="-760" y="-644" as="geometry" />
+        </mxCell>
+        <UserObject label="外键说明：&#xa;─────────&#xa;reviewed_by → users.id&#xa;created_by → users.id&#xa;两个都是指向users表的外键" link="外键说明：&#xa;─────────&#xa;reviewed_by → users.id&#xa;created_by → users.id&#xa;两个都是指向users表的外键" id="21KNUECzs471JhOmHpBL-10">
+          <mxCell parent="1" style="text;whiteSpace=wrap;" vertex="1">
+            <mxGeometry height="100" width="190" x="-630" y="-340" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="21KNUECzs471JhOmHpBL-11" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;div&gt;problem_knowledge_points&lt;/div&gt;&lt;div&gt;───────────────────────&lt;/div&gt;&lt;div&gt;problem_id (FK)&lt;/div&gt;&lt;div&gt;knowledge_point_id (FK)&lt;/div&gt;&lt;div&gt;is_primary&lt;/div&gt;&lt;div&gt;weight&lt;/div&gt;&lt;div&gt;created_at&lt;/div&gt;" vertex="1">
+          <mxGeometry height="170" width="270" x="-400" y="-710" as="geometry" />
+        </mxCell>
+        <mxCell id="21KNUECzs471JhOmHpBL-12" edge="1" parent="1" style="shape=link;html=1;rounded=0;" value="">
+          <mxGeometry relative="1" width="100" as="geometry">
+            <mxPoint x="-430" y="-750" as="sourcePoint" />
+            <mxPoint x="-330" y="-750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="21KNUECzs471JhOmHpBL-13" edge="1" parent="1" source="21KNUECzs471JhOmHpBL-9" style="shape=link;html=1;rounded=0;" target="21KNUECzs471JhOmHpBL-11" value="">
+          <mxGeometry relative="1" width="100" as="geometry">
+            <mxPoint x="-630" y="-470" as="sourcePoint" />
+            <mxPoint x="-330" y="-750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="21KNUECzs471JhOmHpBL-14" connectable="0" parent="21KNUECzs471JhOmHpBL-13" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=16;" value="1" vertex="1">
+          <mxGeometry relative="1" x="0.1032" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="21KNUECzs471JhOmHpBL-16" edge="1" parent="1" source="21KNUECzs471JhOmHpBL-4" style="shape=link;html=1;rounded=0;entryX=0.396;entryY=0.112;entryDx=0;entryDy=0;entryPerimeter=0;" target="21KNUECzs471JhOmHpBL-11" value="">
+          <mxGeometry relative="1" width="100" as="geometry">
+            <mxPoint x="-430" y="-640" as="sourcePoint" />
+            <mxPoint x="-330" y="-640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="21KNUECzs471JhOmHpBL-17" connectable="0" parent="21KNUECzs471JhOmHpBL-16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=16;fontColor=#FF6666;" value="N" vertex="1">
+          <mxGeometry relative="1" x="0.1855" y="-3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="21KNUECzs471JhOmHpBL-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;div&gt;practice_sessions&lt;/div&gt;&lt;div&gt;────────────────&lt;/div&gt;&lt;div&gt;id (PK)&lt;/div&gt;&lt;div&gt;user_id (FK)&lt;/div&gt;&lt;div&gt;session_type&lt;/div&gt;&lt;div&gt;config (JSONB)&lt;/div&gt;&lt;div&gt;status&lt;/div&gt;&lt;div&gt;total_questions&lt;/div&gt;&lt;div&gt;completed_questions&lt;/div&gt;&lt;div&gt;correct_questions&lt;/div&gt;&lt;div&gt;started_at&lt;/div&gt;&lt;div&gt;completed_at&lt;/div&gt;&lt;div&gt;total_duration&lt;/div&gt;&lt;div&gt;average_time_per_question&lt;/div&gt;&lt;div&gt;accuracy_rate&lt;/div&gt;&lt;div&gt;device_info (JSONB)&lt;/div&gt;&lt;div&gt;ip_address&lt;/div&gt;" vertex="1">
+          <mxGeometry height="260" width="140" x="-450" y="-1160" as="geometry" />
+        </mxCell>
+        <mxCell id="21KNUECzs471JhOmHpBL-19" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;div&gt;answer_records&lt;/div&gt;&lt;div&gt;──────────────&lt;/div&gt;&lt;div&gt;id (PK)&lt;/div&gt;&lt;div&gt;session_id (FK)&lt;/div&gt;&lt;div&gt;problem_id (FK)&lt;/div&gt;&lt;div&gt;user_id (FK)&lt;/div&gt;&lt;div&gt;user_answer&lt;/div&gt;&lt;div&gt;is_correct&lt;/div&gt;&lt;div&gt;confidence_level&lt;/div&gt;&lt;div&gt;time_spent&lt;/div&gt;&lt;div&gt;first_response_time&lt;/div&gt;&lt;div&gt;review_count&lt;/div&gt;&lt;div&gt;steps (JSONB)&lt;/div&gt;&lt;div&gt;hesitation_points (JSONB)&lt;/div&gt;&lt;div&gt;user_feedback&lt;/div&gt;&lt;div&gt;note&lt;/div&gt;&lt;div&gt;answered_at&lt;/div&gt;&lt;div&gt;created_at&lt;/div&gt;&lt;div&gt;knowledge_point_ids (数组)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="280" width="160" x="-250" y="-1160" as="geometry" />
+        </mxCell>
+        <mxCell id="21KNUECzs471JhOmHpBL-20" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="&lt;div&gt;mistake_collections&lt;/div&gt;&lt;div&gt;──────────────────&lt;/div&gt;&lt;div&gt;id (PK)&lt;/div&gt;&lt;div&gt;user_id (FK)&lt;/div&gt;&lt;div&gt;problem_id (FK)&lt;/div&gt;&lt;div&gt;first_wrong_at&lt;/div&gt;&lt;div&gt;last_wrong_at&lt;/div&gt;&lt;div&gt;wrong_count&lt;/div&gt;&lt;div&gt;is_mastered&lt;/div&gt;&lt;div&gt;mastered_at&lt;/div&gt;&lt;div&gt;error_types (数组)&lt;/div&gt;&lt;div&gt;weak_knowledge_points (数组)&lt;/div&gt;&lt;div&gt;next_review_at&lt;/div&gt;&lt;div&gt;review_count&lt;/div&gt;&lt;div&gt;created_at&lt;/div&gt;&lt;div&gt;updated_at&lt;/div&gt;" vertex="1">
+          <mxGeometry height="240" width="170" x="-440" y="-480" as="geometry" />
+        </mxCell>
+        <mxCell id="21KNUECzs471JhOmHpBL-21" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;student_profiles&lt;/div&gt;&lt;div&gt;───────────────&lt;/div&gt;&lt;div&gt;id (PK)&lt;/div&gt;&lt;div&gt;user_id (FK) UNIQUE&lt;/div&gt;&lt;div&gt;total_practice_time&lt;/div&gt;&lt;div&gt;total_problems_attempted&lt;/div&gt;&lt;div&gt;overall_accuracy&lt;/div&gt;&lt;div&gt;knowledge_mastery (JSONB)&lt;/div&gt;&lt;div&gt;difficulty_performance (JSONB)&lt;/div&gt;&lt;div&gt;preferred_practice_time&lt;/div&gt;&lt;div&gt;average_session_duration&lt;/div&gt;&lt;div&gt;weekly_progress (JSONB)&lt;/div&gt;&lt;div&gt;monthly_trend (JSONB)&lt;/div&gt;&lt;div&gt;recommended_problems (数组)&lt;/div&gt;&lt;div&gt;created_at&lt;/div&gt;&lt;div&gt;updated_at&lt;/div&gt;&lt;div&gt;last_calculated_at&lt;/div&gt;" vertex="1">
+          <mxGeometry height="250" width="170" x="-200" y="-480" as="geometry" />
+        </mxCell>
+        <mxCell id="21KNUECzs471JhOmHpBL-22" parent="1" style="text;whiteSpace=wrap;" value="奥赛AI平台 - 数据库ER图&#xa;========================&#xa;设计日期：2026年1月21日&#xa;版本：1.0" vertex="1">
+          <mxGeometry height="80" width="200" x="-790" y="-130" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
