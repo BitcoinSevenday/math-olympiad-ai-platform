@@ -1,0 +1,153 @@
+version: '29.1.3.3.3'
+
+# 网络配置 - macOS特化
+networks:
+  olympiad-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# 服务定义
+services:
+  # 主数据库 - PostgreSQL 15（推荐稳定版本）
+  postgres:
+    image: postgres:15-alpine
+    container_name: olympiad-postgres
+    platform: linux/amd64  # Apple Silicon兼容性
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-olympiad123}
+      POSTGRES_DB: olympiad
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+      TZ: Asia/Shanghai
+    ports:
+      - "5432:5432"
+    volumes:
+      # macOS特化：使用命名卷提高性能
+      - postgres_data:/var/lib/postgresql/data
+      # 初始化脚本
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+      # 配置优化
+      - ./database/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    networks:
+      - olympiad-net
+    command: >
+      postgres 
+      -c config_file=/etc/postgresql/postgresql.conf
+      -c shared_preload_libraries='pg_stat_statements'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d olympiad"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # 数据库管理界面 - pgAdmin 4
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: olympiad-pgadmin
+    platform: linux/amd64
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@olympiad.local
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin123}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./database/pgadmin/servers.json:/pgadmin4/servers.json:ro
+    networks:
+      - olympiad-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Redis缓存（为后续会话和缓存准备）
+  redis:
+    image: redis:7-alpine
+    container_name: olympiad-redis
+    platform: linux/amd64
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis123}
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - olympiad-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+# 卷定义（macOS推荐使用命名卷）
+volumes:
+  postgres_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./database/data  # 本地目录映射，便于备份
+  pgadmin_data:
+  redis_data:
+EOF
+4. 创建PostgreSQL优化配置文件
+# 创建配置目录
+$ mkdir -p database
+
+# PostgreSQL配置优化（针对开发环境）
+$ cat > database/postgresql.conf << 'EOF'
+# macOS开发环境优化配置
+
+# 连接设置
+listen_addresses = '*'      # 监听所有地址
+port = 5432                # 默认端口
+max_connections = 100      # 开发环境足够
+
+# 内存设置（针对Apple Silicon 16GB内存优化）
+shared_buffers = 256MB     # 共享缓冲区
+work_mem = 8MB             # 每个操作的排序内存
+maintenance_work_mem = 64MB # 维护操作内存
+
+# 检查点优化
+checkpoint_timeout = 10min  # 检查点间隔
+checkpoint_completion_target = 0.7  # 完成目标
+
+# 日志设置
+log_destination = 'stderr'
+logging_collector = on
+log_directory = 'log'
+log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'
+log_rotation_age = 1d
+log_rotation_size = 10MB
+log_min_duration_statement = 1000  # 记录执行超过1秒的语句
+
+# 性能监控
+shared_preload_libraries = 'pg_stat_statements'
+pg_stat_statements.max = 10000
+pg_stat_statements.track = all
+
+# WAL设置（写前日志）
+wal_level = replica
+max_wal_size = 1GB
+min_wal_size = 80MB
+
+# 并行查询（针对多核M2 Pro）
+max_parallel_workers_per_gather = 2
+max_parallel_workers = 4
+max_parallel_maintenance_workers = 2
+
+# 其他优化
+effective_cache_size = 2GB
+random_page_cost = 1.1     # SSD优化
+effective_io_concurrency = 200
