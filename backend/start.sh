@@ -37,6 +37,49 @@ check_venv() {
     print_info "虚拟环境: $(which python)"
 }
 
+# 添加一个诊断函数
+diagnose_environment() {
+    echo ""
+    print_info "环境诊断:"
+    echo "1. 当前目录: $(pwd)"
+    echo "2. 虚拟环境: ${VIRTUAL_ENV:-未设置}"
+    echo "3. which python: $(which python)"
+    echo "4. python路径: $(python -c "import sys; print(sys.executable)" 2>/dev/null || echo "无法获取")"
+    echo "5. Python版本: $(python --version 2>&1 || echo "无法获取")"
+    echo "6. pip路径: $(which pip)"
+    echo ""
+    
+    # 检查SQLAlchemy的具体情况
+    print_info "检查SQLAlchemy安装情况:"
+    
+    # 方式1: pip检查
+    echo "pip检查:"
+    pip show sqlalchemy 2>&1 | head -5 || echo "  pip show失败"
+    
+    # 方式2: 直接检查site-packages
+    echo ""
+    echo "site-packages检查:"
+    local site_packages=$(python -c "import site; print(site.getsitepackages()[0])" 2>/dev/null)
+    if [ -n "$site_packages" ]; then
+        ls "$site_packages" | grep -i sqlalchemy || echo "  未找到SQLAlchemy"
+    fi
+    
+    # 方式3: 直接导入测试
+    echo ""
+    echo "直接导入测试:"
+    python -c "
+try:
+    import sqlalchemy
+    print('✅ 可以导入')
+    print(f'版本: {sqlalchemy.__version__}')
+    print(f'路径: {sqlalchemy.__file__}')
+except ImportError as e:
+    print(f'❌ 导入失败: {e}')
+except Exception as e:
+    print(f'⚠️ 其他错误: {e}')
+"
+}
+
 # 检查依赖
 check_dependencies() {
     print_info "检查Python依赖..."
@@ -52,6 +95,8 @@ check_dependencies() {
     
     print_success "所有依赖检查通过"
 }
+
+
 
 # 检查数据库连接
 check_database() {
@@ -203,6 +248,7 @@ main() {
     
     # 执行检查
     check_venv
+    diagnose_environment
     check_dependencies
     setup_env
     check_database
