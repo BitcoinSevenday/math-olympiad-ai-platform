@@ -43,31 +43,18 @@ services:
       start_period: 30s
 
   # 数据库管理界面 - pgAdmin 4
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: olympiad-pgadmin
-    platform: linux/amd64
+  adminer:
+    image: adminer:latest
+    container_name: olympiad-adminer
     restart: unless-stopped
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@olympiad.local
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin123}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
     ports:
-      - "5050:80"
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-      - ./database/pgadmin/servers.json:/pgadmin4/servers.json:ro
+      - "8080:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: olympiad-postgres
     networks:
       - olympiad-net
     depends_on:
-      postgres:
-        condition: service_healthy
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
+      - postgres
 
   # Redis缓存（为后续会话和缓存准备）
   redis:
