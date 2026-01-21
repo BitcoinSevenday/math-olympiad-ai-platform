@@ -1,0 +1,1 @@
+/usr/local/bin/postgres "-c" "config_file=/etc/postgresql/postgresql.conf" "-c" "shared_preload_libraries=pg_stat_statements"
