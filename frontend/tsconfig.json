@@ -1,8 +1,17 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
-  "exclude": ["src/**/__tests__/*"],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue","src/env.d.ts","src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "module": "ESNext",
+  "target": "ES2020",          // 或 ES2020/ES2022
+  "lib": ["ESNext", "DOM","DOM.Iterable"], 
   "compilerOptions": {
+    "useDefineForClassFields": true,
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "ESNext",  // 必须是 ESNext 或 ES2020/ES2022
+
     "composite": true,
     "baseUrl": ".",
     "paths": {
@@ -13,6 +22,13 @@
       "@stores/*": ["./src/stores/*"],
       "@api/*": ["./src/api/*"]
     },
+
+    "skipLibCheck": true,
+   
+    /* 路径别名 */
+    "types": ["node", "vite/client"],
+
+
     // macOS特化：类型检查配置
     "strict": true,
     "noUnusedLocals": false,  // 开发时暂时关闭
@@ -28,7 +44,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "target": "ES2020",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     
@@ -40,5 +56,7 @@
   "vueCompilerOptions": {
     "target": 3,
     "extensions": [".vue"]
-  }
+  },
+  "references": [{ "path": "./tsconfig.node.json" }]
+
 }

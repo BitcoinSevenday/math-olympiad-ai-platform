@@ -1,0 +1,43 @@
+### 1. 用户注册
+POST http://localhost:8000/api/v1/auth/register
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "password": "testpass123",
+    "email": "test@example.com"
+}
+
+### 2. 用户登录 (获取Token)
+POST http://localhost:8000/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "password": "testpass123"
+}
+
+> {%
+    client.global.set("auth_token", response.body.access_token);
+%}
+
+### 3. 使用Token获取当前用户信息
+GET http://localhost:8000/api/v1/users/me
+Authorization: Bearer {{auth_token}}
+
+### 4. 创建一道新题目
+POST http://localhost:8000/api/v1/problems/
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+    "title": "测试几何题",
+    "content": "已知直角三角形两直角边长为3和4，求斜边长。",
+    "options": {"A": "5", "B": "6", "C": "7", "D": "8"},
+    "correct_answer": "A",
+    "difficulty": 2
+}
+
+### 5. 获取题目列表
+GET http://localhost:8000/api/v1/problems/?skip=0&limit=10
+Authorization: Bearer {{auth_token}}
