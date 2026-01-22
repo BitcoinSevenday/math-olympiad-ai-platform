@@ -98,29 +98,31 @@ check_dependencies() {
 
 
 
-# 检查数据库连接
 check_database() {
-    print_info "检查数据库连接..."
+    print_info "检查数据库连接...新"
     
-    # 尝试连接数据库
-    if python -c "
-import sys
-sys.path.append('.')
-from app.core.database import engine
-from sqlalchemy import text
-try:
-    with engine.connect() as conn:
-        conn.execute(text('SELECT 1'))
-    print('✅ 数据库连接成功')
-except Exception as e:
-    print(f'❌ 数据库连接失败: {e}')
-    sys.exit(1)
-" 2>/dev/null; then
-        print_success "数据库连接正常"
+    # 检查 Docker 服务状态
+    if docker-compose ps postgres 2>/dev/null | grep -q "Up"; then
+        print_success "PostgreSQL 容器运行中"
     else
-        print_error "数据库连接失败，请检查PostgreSQL服务"
-        echo "启动数据库: docker-compose up -d postgres"
-        exit 1
+        print_error "PostgreSQL 容器未运行"
+        print_info "启动数据库: docker-compose up -d postgres"
+        sleep 5  # 等待容器启动
+    fi
+    
+    # 使用你的测试脚本
+    if python3 scripts/test_db_connection.py > /dev/null 2>&1; then
+        print_success "数据库连接正常"
+        return 0
+    else
+        print_error "数据库连接失败"
+        
+        # 显示更多错误信息
+        print_info "详细错误信息:"
+        python3 ./scripts/test_db_connection.py
+        
+        print_info "启动数据库: docker-compose up -d postgres"
+        return 1
     fi
 }
 

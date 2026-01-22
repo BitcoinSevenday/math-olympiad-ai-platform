@@ -2,7 +2,7 @@
 macOS特化的数据库连接管理
 使用SQLAlchemy 2.0+异步API
 """
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import QueuePool
@@ -97,16 +97,16 @@ def init_db() -> None:
         
         # 验证数据库连接
         with engine.connect() as conn:
-            result = conn.execute("SELECT version();")
+            result = conn.execute(text("SELECT version();"))
             db_version = result.fetchone()[0]
             logger.info(f"📊 数据库版本: {db_version}")
             
             # 检查表数量
-            result = conn.execute("""
+            result = conn.execute(text("""
                 SELECT COUNT(*) 
                 FROM information_schema.tables 
                 WHERE table_schema = 'public'
-            """)
+            """))
             table_count = result.fetchone()[0]
             logger.info(f"📈 数据表数量: {table_count}")
             

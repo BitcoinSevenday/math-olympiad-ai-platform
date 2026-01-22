@@ -76,6 +76,7 @@ class Settings(BaseSettings):
     USERS_OPEN_REGISTRATION: bool = True
     
     class Config:
+        extra = "allow"
         case_sensitive = True
         env_file = ".env"
         env_file_encoding = "utf-8"
