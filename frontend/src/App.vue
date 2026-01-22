@@ -1,11 +1,17 @@
-<script setup></script>
-
+<!-- frontend/src/App.vue -->
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <div id="app">
+    <!-- 路由出口 -->
+    <router-view />
+  </div>
 </template>
 
-<style scoped></style>
+<script setup lang="ts">
+// 这里可以放置全局逻辑
+</script>
+
+<style scoped>
+#app {
+  min-height: 100vh;
+}
+</style>

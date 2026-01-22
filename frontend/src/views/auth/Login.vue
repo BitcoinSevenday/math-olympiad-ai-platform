@@ -1,12 +1,13 @@
 <template>
+
   <div class="login-container">
     <div class="login-wrapper">
       <!-- 左侧背景 -->
       <div class="login-left">
         <div class="login-hero">
-          <div class="hero-icon">🧮</div>
-          <h1 class="hero-title">奥赛AI平台</h1>
-          <p class="hero-subtitle">智能数学奥赛学习系统</p>
+          <div class="hero-icon">ping</div>
+          <h1 class="hero-title">AI平台</h1>
+          <p class="hero-subtitle">智能学习系统</p>
           <div class="hero-features">
             <div class="feature-item">
               <el-icon><Reading /></el-icon>
@@ -128,7 +129,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, watch } from 'vue'  // <-- 修复：添加 watch
 import { useRouter } from 'vue-router'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { User, Lock, Reading, TrendCharts, MagicStick, ChatDotRound, Message } from '@element-plus/icons-vue'
@@ -172,17 +173,22 @@ const handleLogin = async () => {
     
     loading.value = true
     
+    // 确保 userStore 有 login 方法
     const success = await userStore.login(loginForm.username, loginForm.password)
     
     if (success) {
       ElMessage.success('登录成功')
       router.push('/dashboard')
+    } else {
+      ElMessage.error('登录失败，请检查用户名和密码')
     }
   } catch (error: any) {
     if (error?.errors) {
       // 表单验证错误，不需要处理
+      ElMessage.error('请填写正确的登录信息')
     } else {
       console.error('登录错误:', error)
+      ElMessage.error('登录失败: ' + (error.message || '未知错误'))
     }
   } finally {
     loading.value = false
@@ -224,7 +230,7 @@ onMounted(() => {
   }
 })
 
-// 监听记住我变化
+// 监听记住我变化 - 现在可以正常工作了
 watch(rememberMe, saveRememberedAccount)
 </script>
 

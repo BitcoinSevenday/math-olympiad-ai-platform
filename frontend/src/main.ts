@@ -39,32 +39,7 @@ if (import.meta.env.DEV) {
   console.log('🚀 Vue 3前端应用已启动')
   console.log('📦 环境:', import.meta.env.MODE)
   console.log('🌐 API基础URL:', import.meta.env.VITE_API_BASE_URL)
-  console.log('🔗 路由模式:', router.history.base)
+  console.log('🔗 当前路由:', router.currentRoute.value.path)
+
 }
-EOF
 
-# 更新App.vue
-$ cat > src/App.vue << 'EOF'
-<template>
-  <router-view />
-</template>
-
-<script setup lang="ts">
-import { onMounted } from 'vue'
-
-onMounted(() => {
-  // 在macOS上优化滚动性能
-  if (navigator.userAgent.includes('Mac')) {
-    document.body.style.webkitOverflowScrolling = 'touch'
-  }
-})
-</script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  height: 100%;
-}
-</style>
