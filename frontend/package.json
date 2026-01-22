@@ -23,6 +23,7 @@
     "@iconify-json/ep": "^1.2.3",
     "@types/node": "^25.0.10",
     "@vitejs/plugin-vue": "^6.0.3",
+    "@vue/tsconfig": "^0.8.1",
     "sass": "^1.97.3",
     "sass-loader": "^16.0.6",
     "unplugin-auto-import": "^21.0.0",
