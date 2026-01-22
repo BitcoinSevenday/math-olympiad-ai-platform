@@ -8,9 +8,9 @@ const Register = () => import('@/views/auth/Register.vue')
 const Layout = () => import('@/layouts/MainLayout.vue')
 const Dashboard = () => import('@/views/dashboard/Dashboard.vue')
 const ProblemList = () => import('@/views/problem/ProblemList.vue')
-const ProblemDetail = () => import('@/views/problem/ProblemDetail.vue')
-const ProblemCreate = () => import('@/views/problem/ProblemCreate.vue')
 const ProblemEdit = () => import('@/views/problem/ProblemEdit.vue')
+const ProblemCreate = () => import('@/views/problem/ProblemCreate.vue')
+const ProblemDetail = () => import('@/views/problem/ProblemDetail.vue')
 const Profile = () => import('@/views/user/Profile.vue')
 const NotFound = () => import('@/views/error/NotFound.vue')
 
@@ -82,6 +82,7 @@ const router = createRouter({
           path: 'problems/:id',
           name: 'ProblemDetail',
           component: ProblemDetail,
+          props: true, // 启用 props 传递路由参数
           meta: {
             title: '题目详情',
             requiresAuth: true,
@@ -91,6 +92,7 @@ const router = createRouter({
           path: 'problems/:id/edit',
           name: 'ProblemEdit',
           component: ProblemEdit,
+          props: true, // 启用 props 传递路由参数
           meta: {
             title: '编辑题目',
             requiresAuth: true,
@@ -161,6 +163,11 @@ router.beforeEach(async (to, from, next) => {
         await userStore.fetchUserInfo()
       } catch (error) {
         console.error('加载用户信息失败:', error)
+        // 如果加载失败，可能是token过期，清除状态
+        userStore.logout()
+        ElMessage.error('登录已过期，请重新登录')
+        next('/login')
+        return
       }
     }
   }
@@ -175,7 +182,7 @@ router.beforeEach(async (to, from, next) => {
 })
 
 // 全局后置钩子
-router.afterEach((to) => {
+router.afterEach((to, from) => {
   // 回到页面顶部
   window.scrollTo(0, 0)
   
