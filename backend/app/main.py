@@ -1,9 +1,11 @@
 """
 macOS特化的FastAPI主应用
 """
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 import time
 
@@ -115,6 +117,49 @@ app.include_router(
     prefix="/api/v1/problems",
     tags=["题目管理"]
 )
+#全局异常处理器
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc : RequestValidationError):
+    """
+    请求捕获验证错误，打印详细信息
+    """
+    
+    body = await request.body()
+    body_str = body.decode('utf-8') if body else ""
+
+     # 打印详细的调试信息
+    print("\n" + "🔥" * 60)
+    print("🔥 请求验证失败 🔥")
+    print("🔥" * 60)
+    
+    print(f"📌 请求URL: {request.url}")
+    print(f"📌 请求方法: {request.method}")
+    print(f"📌 客户端: {request.client}")
+    
+    print("📌 请求头:")
+    for header, value in request.headers.items():
+        print(f"    {header}: {value}")
+    
+    print(f"📌 原始请求体: {body_str}")
+    print(f"📌 请求体长度: {len(body)}")
+    
+    print(f"📌 验证错误详情: {exc.errors()}")
+    print("🔥" * 60 + "\n")
+    
+    # 返回标准错误响应
+    return JSONResponse(
+        status_code=422,
+        content={
+            "detail": exc.errors(),
+            "body": body_str,
+            "debug_info": {
+                "url": str(request.url),
+                "method": request.method,
+                "content_type": request.headers.get("content-type"),
+                "body_received": body_str[:500]  # 只显示前500字符
+            }
+        }
+    )
 
 # 全局异常处理器
 @app.exception_handler(404)

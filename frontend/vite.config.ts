@@ -29,10 +29,11 @@ export default defineConfig(({ mode }) => {
       
       // 代理配置，解决跨域
       proxy: {
-        '/api': {
-          target: env.VITE_API_BASE_URL || 'http://localhost:8000',
+        '/v1': {
+          //target: env.VITE_API_BASE_URL || 'http://localhost:8000',
+          target: 'http://localhost:8000',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
+          //rewrite: (path) => path.replace(/^\/api/, ''),
           secure: false,
         },
       },

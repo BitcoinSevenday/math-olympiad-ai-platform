@@ -191,9 +191,9 @@ SET
 -- 插入系统管理员
 INSERT INTO users (username, email, hashed_password, full_name, role, is_active, is_verified) 
 VALUES 
-('admin', 'admin@olympiad.local', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', '系统管理员', 'admin', TRUE, TRUE),
-('demo_student', 'student@demo.local', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', '演示学生', 'student', TRUE, TRUE),
-('demo_teacher', 'teacher@demo.local', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', '演示老师', 'teacher', TRUE, TRUE);
+('admin', 'admin@olympiad.com', '$2b$12$o/09sdvm6tWbTY9CghAA0OWoxK38UIfwg.Twe6Y7UMMEn0AyHiUP6', '系统管理员', 'admin', TRUE, TRUE),
+('demo_student', 'student@demo.com', '$2b$12$o/09sdvm6tWbTY9CghAA0OWoxK38UIfwg.Twe6Y7UMMEn0AyHiUP6', '演示学生', 'student', TRUE, TRUE),
+('demo_teacher', 'teacher@demo.com', '$2b$12$o/09sdvm6tWbTY9CghAA0OWoxK38UIfwg.Twe6Y7UMMEn0AyHiUP6', '演示老师', 'teacher', TRUE, TRUE);
 
 -- 插入初始知识点（奥赛数学分类）
 INSERT INTO knowledge_points (name, code, parent_id, level, description, sort_order) VALUES
@@ -749,9 +749,9 @@ SET
 -- 插入系统管理员
 INSERT INTO users (username, email, hashed_password, full_name, role, is_active, is_verified) 
 VALUES 
-('admin', 'admin@olympiad.local', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', '系统管理员', 'admin', TRUE, TRUE),
-('demo_student', 'student@demo.local', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', '演示学生', 'student', TRUE, TRUE),
-('demo_teacher', 'teacher@demo.local', '$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', '演示老师', 'teacher', TRUE, TRUE);
+('admin', 'admin@olympiad.local', '$2b$12$o/09sdvm6tWbTY9CghAA0OWoxK38UIfwg.Twe6Y7UMMEn0AyHiUP6', '系统管理员', 'admin', TRUE, TRUE),
+('demo_student', 'student@demo.local', '$2b$12$o/09sdvm6tWbTY9CghAA0OWoxK38UIfwg.Twe6Y7UMMEn0AyHiUP6', '演示学生', 'student', TRUE, TRUE),
+('demo_teacher', 'teacher@demo.local', '$2b$12$o/09sdvm6tWbTY9CghAA0OWoxK38UIfwg.Twe6Y7UMMEn0AyHiUP6', '演示老师', 'teacher', TRUE, TRUE);
 
 -- 插入初始知识点（奥赛数学分类）
 INSERT INTO knowledge_points (name, code, parent_id, level, description, sort_order) VALUES

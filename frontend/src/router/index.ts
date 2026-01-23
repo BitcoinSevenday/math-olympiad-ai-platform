@@ -128,8 +128,8 @@ router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
   
   // 设置页面标题
-  const title = to.meta.title as string || '奥赛AI平台'
-  document.title = `${title} - 奥赛AI平台`
+  const title = to.meta.title as string || 'AI平台'
+  document.title = `${title} - AI平台`
   
   // 检查是否需要认证
   if (to.meta.requiresAuth) {

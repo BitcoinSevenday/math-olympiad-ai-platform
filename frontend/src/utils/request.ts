@@ -14,11 +14,11 @@ import router from '@/router'
 
 // 环境配置
 const isDevelopment = import.meta.env.MODE === 'development'
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
 
 // 创建axios实例
 const service: AxiosInstance = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: 'http://localhost:8000',
   timeout: 15000, // 15秒超时
   headers: {
     'Content-Type': 'application/json;charset=utf-8'

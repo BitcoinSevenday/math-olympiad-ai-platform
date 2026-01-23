@@ -12,7 +12,7 @@ import type {
 
 // 用户登录
 export function login(data: LoginRequest): Promise<TokenResponse> {
-  return post('/api/v1/auth/login/json', data)
+  return post('/api/v1/auth/login', data)
 }
 
 // 用户注册

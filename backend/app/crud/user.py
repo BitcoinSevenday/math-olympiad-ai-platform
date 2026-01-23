@@ -112,12 +112,17 @@ def authenticate_user(
 ) -> Optional[User]:
     """用户认证"""
     user = get_user_by_username(db, username)
+    print(f"传入进来的加密过的password:{password}")
+    print(f"从username获得user:{user.username}, hash密码是:{user.hashed_password}")
+
     if not user:
         return None
     
     if not verify_password(password, user.hashed_password):
+        print(f"验证了密码，user密码不正确")
         return None
     
+    print(f"正确验证了密码，解析了user")
     return user
 
 def change_password(

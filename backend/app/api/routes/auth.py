@@ -4,7 +4,7 @@
 """
 from datetime import timedelta
 from typing import Any
-from fastapi import APIRouter, Depends, HTTPException, status, Body
+from fastapi import APIRouter, Depends, HTTPException, status, Body, Request
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
@@ -58,7 +58,8 @@ async def register(
 
 @router.post("/login", response_model=Token)
 async def login(
-    form_data: OAuth2PasswordRequestForm = Depends(),
+    request: Request,
+    login_json_data: UserLogin,
     db: Session = Depends(get_db)
 ):
     """
@@ -68,7 +69,11 @@ async def login(
     - **username**: 用户名
     - **password**: 密码
     """
-    user = authenticate_user(db, form_data.username, form_data.password)
+
+
+    print(f"收到登录数据: username={login_json_data.username}, password={login_json_data.password}")
+
+    user = authenticate_user(db, login_json_data.username, login_json_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
